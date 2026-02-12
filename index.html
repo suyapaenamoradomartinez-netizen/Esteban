@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aventura para Esteban 🐢</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 🖼️ PORTADA (primera pantalla) -->
+  <section id="coverScreen" class="cover-screen">
+    <div class="cover-wrap">
+      <img src="Designer (3).png" alt="Aventura para Esteban - portada" class="cover-art" />
+      <button class="btn-main cover-start" id="btnCoverStart" onclick="goToSelect()">
+        Iniciar
+      </button>
+    </div>
+  </section>
+
+  <!-- 🎵 Música y SFX -->
+  <audio id="bgMusic" src="musica.mp3" preload="auto" loop></audio>
+  <audio id="sfxJump"  src="jump.wav"  preload="auto"></audio>
+  <audio id="sfxMount" src="mount.wav" preload="auto"></audio>
+  <audio id="sfxLose"  src="lose.wav"  preload="auto"></audio>
+
+  <!-- 🧩 Selección de personaje -->
+  <section id="selectScreen" class="screen hidden">
+    <div class="select-wrap">
+      <h1 class="select-title">Elige a Esteban</h1>
+
+      <div class="choices-container">
+        <button class="char-card" onclick="chooseCharacter('elegante')">
+          <div class="preview">
+            <canvas id="previewElegante" width="128" height="128" aria-hidden="true"></canvas>
+          </div>
+          <p>Elegante</p>
+        </button>
+
+        <button class="char-card" onclick="chooseCharacter('casual')">
+          <div class="preview">
+            <canvas id="previewCasual" width="128" height="128" aria-hidden="true"></canvas>
+          </div>
+          <p>Casual</p>
+        </button>
+      </div>
+
+      <p class="select-note">
+        Usa <b>← →</b> o <b>A D</b> para moverte, <b>Espacio</b> para saltar.
+      </p>
+    </div>
+  </section>
+
+  <!-- 🔒 Pantalla con contraseña -->
+  <section id="lockScreen" class="screen hidden">
+    <div class="glass-box">
+      <p>Solo una persona en el mundo debería estar aquí</p>
+      <input id="password" type="text" placeholder="dd/mm/aaaa" />
+      <button class="btn-main" onclick="checkPassword()">Entrar</button>
+    </div>
+  </section>
+
+  <!-- 💌 Bienvenida -->
+  <section id="startScreen" class="screen hidden">
+    <div id="startParticles" aria-hidden="true"></div>
+    <div class="welcome-box">
+      <h2>¡Hola, amor :3!</h2>
+      <p>¿Listo para comenzar?</p>
+      <button class="btn-main" id="btnStart" onclick="startGame()">⬇ Iniciar Juego</button>
+    </div>
+  </section>
+
+  <!-- 🕹️ Juego -->
+  <canvas id="gameCanvas" class="hidden"></canvas>
+
+  <!-- 🧭 HUD -->
+  <div id="hud" class="hidden">
+    <div id="rideHint" class="ride-hint hidden">Acércate y presiona <b>E</b> para subirte 🐢</div>
+    <div class="hud-audio" aria-label="Control de audio">
+      <button id="btnMute" class="btn-audio" aria-label="Silenciar/activar">🔊</button>
+      <input id="volRange" class="vol-range" type="range" min="0" max="1" step="0.01" value="0.35" aria-label="Volumen" />
+      <button id="btnReset" class="btn-audio" title="Reiniciar">↻</button>
+    </div>
+  </div>
+
+  <!-- 💬 Toasts -->
+  <div id="praiseContainer" aria-hidden="true"></div>
+
+  <!-- 💬 Mini-poema intermedio -->
+  <section id="miniPoemModal" class="overlay hidden" aria-modal="true" role="dialog">
+    <div class="overlay-card">
+      <p class="poem-sm">“cada paso que das, me acerca más a tu sonrisa”</p>
+      <button class="btn-main" id="btnContinue" onclick="onContinue()">Seguir</button>
+    </div>
+  </section>
+
+  <!-- 💔 Game Over -->
+  <section id="gameOver" class="overlay hidden" aria-modal="true" role="dialog">
+    <div class="overlay-card gameover-card">
+      <h2 class="gameover-title">GAME OVER</h2>
+      <p class="gameover-sub">inténtalo de nuevo, cariño</p>
+      <div id="brokenHeartsContainer"></div>
+      <div class="go-actions">
+        <button class="btn-main" id="btnRetry">Volver a empezar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📜 Poema final -->
+  <section id="poemScreen" class="screen hidden">
+    <div id="heartsContainer"></div>
+    <div class="poem-card">
+      <p class="poem">
+        No importa cuántos saltos,<br />
+        cuántos intentos o caídas,<br />
+        siempre llegas a mí.<br /><br />
+        Te espero en cada atardecer,<br />
+        incluso cuando el mundo<br />
+        se siente lejos.<br /><br />
+        <span class="signature">— Te amo, Emely</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ✅ Script -->
+  <script src="game.js" defer></script>
+</body>
+</html>
